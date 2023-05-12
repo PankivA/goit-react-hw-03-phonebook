@@ -11,6 +11,22 @@ export class App extends Component {
     filter: '',
   };
 
+  componentDidMount() {
+    const storageContacts = localStorage.getItem('myContacts');
+		if (storageContacts !== null) {
+      this.setState({
+        contacts: JSON.parse(storageContacts)
+      });
+
+		}
+	}
+
+	componentDidUpdate(_, prevState) {
+		if (prevState.contacts !== this.state.contacts) {
+      localStorage.setItem('myContacts', JSON.stringify(this.state.contacts));
+    } 
+	}
+
   ifExsistContact = dataName => {
     const { contacts } = this.state
     return contacts.find(({name}) => name === dataName)
